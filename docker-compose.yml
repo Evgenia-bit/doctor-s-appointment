@@ -1,0 +1,27 @@
+version: '3.0'
+
+services:
+  main:
+    container_name: main
+    build:
+      context: .
+    env_file:
+      - .env
+    ports:
+      - 3000:3000
+    command: node ./dist/index.js
+    depends_on:
+      - mongodb
+    restart: always
+  mongodb:
+    image: mongo
+    env_file:
+      - .env
+    ports:
+      - 27017:27017
+    volumes:
+      - ./db-init.js:/docker-entrypoint-initdb.d/db-init.js
+    environment:
+      MONGO_INITDB_DATABASE: doctor-appointment
+      ME_CONFIG_MONGODB_URL: mongodb://mongodb:27017/doctor-appointment
+    restart: always

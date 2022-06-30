@@ -1,0 +1,166 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "API для записи к врачу",
+    "version": "v1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Users",
+      "description": "Функции, связанные с пользователями"
+    }
+  ],
+  "paths": {
+    "/api/users/get-all": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Выдаёт список всех пользователей",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "users": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "_id": {
+                            "type": "string",
+                            "example": "62bbe1daecf29bd9e1d54dcd"
+                          },
+                          "phone": {
+                            "type": "string",
+                            "example": "+7-944-444-44-44"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "Алексеев П.П."
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/get-one/{user_id}": {
+      "parameters": [
+        {
+          "name": "user_id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "62bbe1daecf29bd9e1d54dcd"
+          }
+
+        }
+      ],
+      "get": {
+        "tags": ["Users"],
+        "summary": "Выводит одного пользователя",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "62bbe1daecf29bd9e1d54dcd"
+                    },
+                    "phone": {
+                      "type": "string",
+                      "example": "+7-944-444-44-44"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Алексеев П.П."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/create": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Создаёт нового пользователя",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "phone": {
+                    "required": true,
+                    "type": "string",
+                    "example": "+7-944-444-44-44"
+                  },
+                   "name": {
+                     "required": true,
+                     "type": "string",
+                     "example": "Алексеев П.П."
+                   }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "62bbe1daecf29bd9e1d54dcd"
+                    },
+                    "phone": {
+                      "type": "string",
+                      "example": "+7-944-444-44-44"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Алексеев П.П."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Поля phone и name обязательны для заполнения"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+   "/api/users/update": {"patch":{}},
+   "/api/users/delete": {"delete": {}}
+  }
+}
