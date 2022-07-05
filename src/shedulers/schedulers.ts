@@ -1,14 +1,14 @@
-const cron = require('node-cron');
+const cron = require('node-cron')
 import fs = require('fs')
-import { Appointment, AppointmentInput } from '../models/appointment.model';
-import { User, UserInput } from '../models/user.model';
-import { Doctor, DoctorInput } from '../models/doctor.model';
+import { Appointment, AppointmentInput } from '../models/appointment.model'
+import { User, UserInput } from '../models/user.model'
+import { Doctor, DoctorInput } from '../models/doctor.model'
 
 function sendMsg(msg: string):void {
     fs.appendFile('notices.log', msg, function (err: any) {
         if (err) throw err;
-        let fileContent = fs.readFileSync("notices.log", "utf8");
-        console.log('Saved!', fileContent);
+        const fileContent = fs.readFileSync("notices.log", "utf8")
+        console.log('Saved!', fileContent)
     })
 }
 

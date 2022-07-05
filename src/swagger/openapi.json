@@ -13,38 +13,50 @@
     {
       "name": "Users",
       "description": "Функции, связанные с пользователями"
+    },
+    {
+      "name": "Doctors",
+      "description": "Функции, связанные с докторами"
+    },
+    {
+      "name": "Appointments",
+      "description": "Функции, связанные с записями к врачу"
+    },
+    {
+      "name": "Slots",
+      "description": "Функции, связанные со слотами"
     }
   ],
   "paths": {
     "/api/users/get-all": {
       "get": {
         "tags": ["Users"],
-        "summary": "Выдаёт список всех пользователей",
+        "summary": "Находит всех пользователей",
         "responses": {
           "200": {
             "content": {
               "application/json": {
                 "schema": {
                   "properties": {
-                    "users": {
+                    "foundUsers": {
                       "type": "array",
                       "items": {
-                        "type": "object",
-                        "properties": {
-                          "_id": {
-                            "type": "string",
-                            "example": "62bbe1daecf29bd9e1d54dcd"
-                          },
-                          "phone": {
-                            "type": "string",
-                            "example": "+7-944-444-44-44"
-                          },
-                          "name": {
-                            "type": "string",
-                            "example": "Алексеев П.П."
-                          }
-                        }
+                        "$ref": "#/components/schemas/User"
                       }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Пользователи не найдены"
                     }
                   }
                 }
@@ -62,31 +74,50 @@
           "required": true,
           "schema": {
             "type": "string",
-            "example": "62bbe1daecf29bd9e1d54dcd"
+            "example": "62c3ebb0c66d5cbfa7a5b971"
           }
 
         }
       ],
       "get": {
         "tags": ["Users"],
-        "summary": "Выводит одного пользователя",
+        "summary": "Находит одного пользователя по _id",
         "responses": {
           "200": {
             "content": {
               "application/json": {
                 "schema": {
                   "properties": {
-                    "_id": {
+                    "foundUser": {
+                      "$ref": "#/components/schemas/User"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
                       "type": "string",
-                      "example": "62bbe1daecf29bd9e1d54dcd"
-                    },
-                    "phone": {
+                      "example": "Пользователь не найден"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
                       "type": "string",
-                      "example": "+7-944-444-44-44"
-                    },
-                    "name": {
-                      "type": "string",
-                      "example": "Алексеев П.П."
+                      "example": "ID не валиден"
                     }
                   }
                 }
@@ -110,11 +141,11 @@
                     "type": "string",
                     "example": "+7-944-444-44-44"
                   },
-                   "name": {
-                     "required": true,
-                     "type": "string",
-                     "example": "Алексеев П.П."
-                   }
+                  "name": {
+                    "required": true,
+                    "type": "string",
+                    "example": "Алексеев П.П."
+                  }
                 }
               }
             }
@@ -126,18 +157,9 @@
               "application/json": {
                 "schema": {
                   "properties": {
-                    "_id": {
-                      "type": "string",
-                      "example": "62bbe1daecf29bd9e1d54dcd"
-                    },
-                    "phone": {
-                      "type": "string",
-                      "example": "+7-944-444-44-44"
-                    },
-                    "name": {
-                      "type": "string",
-                      "example": "Алексеев П.П."
-                    }
+                      "createdUser": {
+                        "$ref": "#/components/schemas/User"
+                      }
                   }
                 }
               }
@@ -160,7 +182,992 @@
         }
       }
     },
-   "/api/users/update": {"patch":{}},
-   "/api/users/delete": {"delete": {}}
+    "/api/users/update/{user_id}": {
+      "parameters": [
+        {
+          "name": "user_id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "62c3ebb0c66d5cbfa7a5b971"
+          }
+        }
+      ],
+      "patch":{
+        "tags": ["Users"],
+        "summary": "Обновляет пользователя по _id",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "phone": {
+                    "type": "string",
+                    "example": "+7-944-444-44-44"
+                  },
+                  "name": {
+                    "type": "string",
+                    "example": "Алексеев П.П."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Пользователь с id = 62c3ebb0c66d5cbfa7a5b971 не найден"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Обязательно должно быть запонено хотябы одно поле для изменения"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/delete/{user_id}": {
+      "parameters": [
+        {
+          "name": "user_id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "62c3ebb0c66d5cbfa7a5b971"
+          }
+        }
+      ],
+      "delete": {
+        "tags": ["Users"],
+        "summary": "Удаляет пользователя по _id",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Пользователь успешно удален"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Пользователь с id = 62bbe1daecf29bd9e1d54dcd не найден"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ID не валиден"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/doctors/get-all": {
+      "get": {
+        "tags": ["Doctors"],
+        "summary": "Находит всех докторов",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "foundDoctors": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Doctor"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Доктора не найдены"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/doctors/get-one/{doctor_id}": {
+      "parameters": [
+        {
+          "name": "doctor_id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "62bbe1daecf29bd9e1d54dcb"
+          }
+
+        }
+      ],
+      "get": {
+        "tags": ["Doctors"],
+        "summary": "Находит одного доктора по _id",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "foundDoctor": {
+                      "$ref": "#/components/schemas/Doctor"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Доктор не найден"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ID не валиден"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/doctors/create": {
+      "post": {
+        "tags": ["Doctors"],
+        "summary": "Создаёт нового доктора",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "required": true,
+                    "type": "string",
+                    "example": "Ложкин П.В."
+                  },
+                  "spec": {
+                    "required": true,
+                    "type": "string",
+                    "example": "Терапевт"
+                  },
+                  "slots": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "example": "2022-06-28T15:30:00"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "createdDoctor": {
+                      "$ref": "#/components/schemas/Doctor"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Поля name, spec и slots обязательны для заполнения"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/doctors/update/{doctor_id}": {
+      "parameters": [
+        {
+          "name": "doctor_id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "62bbe1daecf29bd9e1d54dcb"
+          }
+        }
+      ],
+      "patch":{
+        "tags": ["Doctors"],
+        "summary": "Обновляет доктора по _id",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Ложкин П.В."
+                  },
+                  "spec": {
+                    "type": "string",
+                    "example": "Терапевт"
+                  },
+                  "slots": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "example": "2022-06-28T15:30:00"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "updatedDoctor": {
+                      "$ref": "#/components/schemas/Doctor"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Доктор с id = 62bbe1daecf29bd9e1d54dcb не найден"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Обязательно должно быть запонено хотябы одно поле для изменения"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/doctors/delete/{doctor_id}": {
+      "parameters": [
+        {
+          "name": "doctor_id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "62bbe1daecf29bd9e1d54dcb"
+          }
+        }
+      ],
+      "delete": {
+        "tags": ["Doctors"],
+        "summary": "Удаляет доктора по _id",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Доктор успешно удален"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Доктор с id = 62bbe1daecf29bd9e1d54dcb не найден"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ID не валиден"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/appointments/get-all": {
+      "get": {
+        "tags": ["Appointments"],
+        "summary": "Находит все записи к врачу",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "foundAppointments": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Appointment"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Записи не найдены"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/appointments/get-one/{appointment_id}": {
+      "parameters": [
+        {
+          "name": "appointment_id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "62bbe31a99115a593145d4aa"
+          }
+
+        }
+      ],
+      "get": {
+        "tags": ["Appointments"],
+        "summary": "Находит одну запись по _id",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "foundAppointment": {
+                      "$ref": "#/components/schemas/Appointment"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Запись не найдена"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ID не валиден"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/appointments/create": {
+      "post": {
+        "tags": ["Appointments"],
+        "summary": "Создаёт новую запись",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "user_id": {
+                    "type": "string",
+                    "example": "62c3ebb0c66d5cbfa7a5b971"
+                  },
+                  "doctor_id": {
+                    "type": "string",
+                    "example": "62bbe1daecf29bd9e1d54dcb"
+                  },
+                  "slot": {
+                    "type": "string",
+                    "example": "2022-06-28T15:30:00"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "createdAppointment": {
+                      "$ref": "#/components/schemas/Appointment"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Данный слот уже занят"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Поля user_id, doctor_id и slot обязательны для заполнения"
+                    }
+                  }
+                }
+              }
+            }
+          }
+
+        }
+      }
+    },
+    "/api/appointments/update/{appointment_id}": {
+      "parameters": [
+        {
+          "name": "appointment_id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "62bbe31a99115a593145d4aa"
+          }
+        }
+      ],
+      "patch":{
+        "tags": ["Appointments"],
+        "summary": "Обновляет запись по _id",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "user_id": {
+                    "type": "string",
+                    "example": "62c3ebb0c66d5cbfa7a5b971"
+                  },
+                  "doctor_id": {
+                    "type": "string",
+                    "example": "62bbe1daecf29bd9e1d54dcb"
+                  },
+                  "slot": {
+                    "type": "string",
+                    "example": "2022-06-28T15:30:00"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Appointment"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Слот 2022-06-28T15:30:00 уже занят"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Запись с id = 62bbe31a99115a593145d4aa не найдена"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Обязательно должно быть запонено хотябы одно поле для изменения"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/appointments/delete/{appointment_id}": {
+      "parameters": [
+        {
+          "name": "appointment_id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "62bbe31a99115a593145d4aa"
+          }
+        }
+      ],
+      "delete": {
+        "tags": ["Appointments"],
+        "summary": "Удаляет запись по _id",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Запись успешно удаленв"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Запись с id = 62bbe31a99115a593145d4aa не найденв"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ID не валиден"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/slots/add/{doctor_id}": {
+      "parameters": [
+        {
+          "name": "doctor_id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "62bbe1daecf29bd9e1d54dcb"
+          }
+        }
+      ],
+      "patch":{
+        "tags": ["Slots"],
+        "summary": "Добавляет слот к конкретному доктору по _id",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "slot": {
+                    "type": "string",
+                    "example": "2022-06-28T15:30:00"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Doctor"
+                }
+              }
+            }
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Слот 2022-06-28T15:30:00 уже существует у данного доктора"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Доктор с id = 62bbe1daecf29bd9e1d54dcb не найден"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ID не валиден"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/slots/delete/{doctor_id}": {
+      "parameters": [
+        {
+          "name": "doctor_id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "example": "62bbe1daecf29bd9e1d54dcb"
+          }
+        }
+      ],
+      "patch":{
+        "tags": ["Slots"],
+        "summary": "Удаляет слот у конкретного доктора по _id",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "slot": {
+                    "type": "string",
+                    "example": "2022-06-28T15:30:00"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Doctor"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Доктор с id = 62bbe1daecf29bd9e1d54dcb не найден"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ID не валиден"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "62c3ebb0c66d5cbfa7a5b971"
+          },
+          "phone": {
+            "type": "string",
+            "example": "+7-944-444-44-44"
+          },
+          "name": {
+            "type": "string",
+            "example": "Алексеев П.П."
+          }
+        }
+      },
+      "Doctor": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "62bbe1daecf29bd9e1d54dcb"
+          },
+          "name": {
+            "type": "string",
+            "example": "Ложкин П.В."
+          },
+          "spec": {
+            "type": "string",
+            "example": "Терапевт"
+          },
+          "slots": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "2022-06-28T15:30:00"
+            }
+          }
+        }
+      },
+      "Appointment": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "example": "62bbe31a99115a593145d4aa"
+          },
+          "user_id": {
+            "type": "string",
+            "example": "62c3ebb0c66d5cbfa7a5b971"
+          },
+          "doctor_id": {
+            "type": "string",
+            "example": "62bbe1daecf29bd9e1d54dcb"
+          },
+          "slot": {
+            "type": "string",
+            "example": "2022-06-28T15:30:00"
+          }
+        }
+      }
+    }
   }
 }
+

@@ -5,9 +5,11 @@ import { userRoute } from './routes/user.route'
 import { doctorRoute } from './routes/doctor.route'
 import { appointmentRoute } from './routes/appointment.route'
 import { slotRoute } from './routes/slot.route'
+import cors from 'cors'
 import swaggerUi from 'swagger-ui-express'
 import * as swaggerDocument from '../src/swagger/openapi.json'
-import cors from 'cors'
+
+
 const port = process.env.PORT
 
 const app: Express = express()
@@ -21,8 +23,13 @@ app.use(express.json())
 app.use('/api/users', userRoute())
 app.use('/api/doctors', doctorRoute())
 app.use('/api/appointments', appointmentRoute())
-app.use('/api/slot', slotRoute())
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api/slots', slotRoute())
+
+
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+
+
 
 app.use((req: Request, res: Response)=> {
     res.status(404)
@@ -40,7 +47,7 @@ app.listen(port, () => {
             console.log('Сonnection to MongoDB is established')
         })
         .catch(err => {
-            console.error('App starting error:', err.message);
+            console.error('App starting error:', err.message)
         })
     console.log(`The server is running on the port ${port}`)
 })

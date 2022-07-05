@@ -11,6 +11,6 @@ const appointmentRoute = () => {
     router.delete('/delete/:appointment_id', deleteAppointment)
 
     return router
-};
+}
 
 export { appointmentRoute }
