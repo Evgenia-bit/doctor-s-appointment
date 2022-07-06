@@ -13,7 +13,6 @@ services:
     depends_on:
       - mongodb
     environment:
-      - MONGO_INITDB_DATABASE=doctor-appointment
       - ME_CONFIG_MONGODB_URL=mongodb://mongodb:27017/doctor-appointment
     restart: always
   mongodb:
@@ -23,5 +22,7 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - ./dist/db/db-init.js:/docker-entrypoint-initdb.d/db-init.js
+      - ./db-init.js:/docker-entrypoint-initdb.d/db-init.js
+    environment:
+      - MONGO_INITDB_DATABASE=doctor-appointment
     restart: always
