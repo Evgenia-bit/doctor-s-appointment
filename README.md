@@ -3,12 +3,20 @@ API для просмотра, создания, редактирования и
 
 Ссылка на ТЗ: https://gist.github.com/babysharny/3778b6b64180d87ac7138f9c8aeabf43
 
+<<<<<<< HEAD
  Запуск через Docker: 
+=======
+### Запуск через Docker: 
+>>>>>>> origin/main
 ```
 docker-compose up
 ```
 
+<<<<<<< HEAD
 Обычный запуск: 
+=======
+### Обычный запуск: 
+>>>>>>> origin/main
 ```
 npm run build
 npm run prefill 

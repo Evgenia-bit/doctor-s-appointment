@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "build-dev": "tsc -w",
-    "prefill": "mongo doctor-appointment src/db/db-init.js",
+    "prefill": "mongo doctor-appointment db-init.js",
     "start": "node ./dist/index.js",
     "dev": "nodemon ./dist/index.js"
   },
