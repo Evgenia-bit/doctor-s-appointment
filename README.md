@@ -3,7 +3,7 @@ API для просмотра, создания, редактирования и
 
 Ссылка на ТЗ: https://gist.github.com/babysharny/3778b6b64180d87ac7138f9c8aeabf43
 
- Запуск через Docker: 
+### Запуск через Docker: 
 ```
 docker-compose up
 ```
@@ -14,7 +14,7 @@ npm run build
 npm run prefill 
 npm run start
 ```
-### Swagger-документация доступна по адрессу http://<host>:<port>/api-docs/
+Swagger-документация доступна по адрессу http://<host>:<port>/api-docs/
 
 
 ## Технологии
