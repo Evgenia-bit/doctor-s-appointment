@@ -96,6 +96,20 @@
               }
             }
           },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ID не валиден"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "404": {
             "content": {
               "application/json": {
@@ -104,20 +118,6 @@
                     "message": {
                       "type": "string",
                       "example": "Пользователь не найден"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "ID не валиден"
                     }
                   }
                 }
@@ -165,7 +165,7 @@
               }
             }
           },
-          "422": {
+          "400": {
             "content": {
               "application/json": {
                 "schema": {
@@ -225,6 +225,20 @@
               }
             }
           },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Обязательно должно быть запонено хотябы одно поле для изменения"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "404": {
             "content": {
               "application/json": {
@@ -238,21 +252,8 @@
                 }
               }
             }
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Обязательно должно быть запонено хотябы одно поле для изменения"
-                    }
-                  }
-                }
-              }
-            }
           }
+
         }
       }
     },
@@ -286,6 +287,20 @@
               }
             }
           },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ID не валиден"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "404": {
             "content": {
               "application/json": {
@@ -294,20 +309,6 @@
                     "message": {
                       "type": "string",
                       "example": "Пользователь с id = 62bbe1daecf29bd9e1d54dcd не найден"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "ID не валиден"
                     }
                   }
                 }
@@ -385,6 +386,20 @@
               }
             }
           },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ID не валиден"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "404": {
             "content": {
               "application/json": {
@@ -393,20 +408,6 @@
                     "message": {
                       "type": "string",
                       "example": "Доктор не найден"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "ID не валиден"
                     }
                   }
                 }
@@ -461,7 +462,7 @@
               }
             }
           },
-          "422": {
+          "400": {
             "content": {
               "application/json": {
                 "schema": {
@@ -532,6 +533,20 @@
               }
             }
           },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Обязательно должно быть запонено хотябы одно поле для изменения"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "404": {
             "content": {
               "application/json": {
@@ -540,20 +555,6 @@
                     "message": {
                       "type": "string",
                       "example": "Доктор с id = 62bbe1daecf29bd9e1d54dcb не найден"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Обязательно должно быть запонено хотябы одно поле для изменения"
                     }
                   }
                 }
@@ -593,6 +594,20 @@
               }
             }
           },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ID не валиден"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "404": {
             "content": {
               "application/json": {
@@ -601,20 +616,6 @@
                     "message": {
                       "type": "string",
                       "example": "Доктор с id = 62bbe1daecf29bd9e1d54dcb не найден"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "ID не валиден"
                     }
                   }
                 }
@@ -679,6 +680,20 @@
         "tags": ["Appointments"],
         "summary": "Находит одну запись по _id",
         "responses": {
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ID не валиден"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "200": {
             "content": {
               "application/json": {
@@ -700,20 +715,6 @@
                     "message": {
                       "type": "string",
                       "example": "Запись не найдена"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "ID не валиден"
                     }
                   }
                 }
@@ -763,21 +764,7 @@
               }
             }
           },
-          "403": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "Данный слот уже занят"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "422": {
+          "400": {
             "content": {
               "application/json": {
                 "schema": {
@@ -790,8 +777,21 @@
                 }
               }
             }
+          },
+          "409": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Данный слот уже занят"
+                    }
+                  }
+                }
+              }
+            }
           }
-
         }
       }
     },
@@ -987,14 +987,14 @@
               }
             }
           },
-          "403": {
+          "400": {
             "content": {
               "application/json": {
                 "schema": {
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Слот 2022-06-28T15:30:00 уже существует у данного доктора"
+                      "example": "ID не валиден"
                     }
                   }
                 }
@@ -1015,14 +1015,14 @@
               }
             }
           },
-          "422": {
+          "409": {
             "content": {
               "application/json": {
                 "schema": {
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "ID не валиден"
+                      "example": "Слот 2022-06-28T15:30:00 уже существует у данного доктора"
                     }
                   }
                 }
@@ -1071,6 +1071,20 @@
               }
             }
           },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "ID не валиден"
+                    }
+                  }
+                }
+              }
+            }
+          },
           "404": {
             "content": {
               "application/json": {
@@ -1079,20 +1093,6 @@
                     "message": {
                       "type": "string",
                       "example": "Доктор с id = 62bbe1daecf29bd9e1d54dcb не найден"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "422": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "example": "ID не валиден"
                     }
                   }
                 }

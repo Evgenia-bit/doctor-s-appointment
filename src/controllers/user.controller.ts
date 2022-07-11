@@ -7,7 +7,7 @@ const createUser = async (req: Request, res: Response) => {
     const phone: string = req.body.phone
     const name: string   = req.body.name
     if (!phone || !name ) {
-        return res.status(422).json({ message: 'Поля phone и name обязательны для заполнения' })
+        return res.status(400).json({ message: 'Поля phone и name обязательны для заполнения' })
     }
     const userInput: UserInput = {
         phone,
@@ -28,7 +28,7 @@ const getAllUsers = async (req: Request, res: Response) => {
 const getUser = async (req: Request, res: Response) => {
     const id: string = req.params.user_id
     if(!Types.ObjectId.isValid(id)) {
-        return res.status(422).json({ message: 'ID не валиден' })
+        return res.status(400).json({ message: 'ID не валиден' })
     }
     const foundUser: UserInput | null = await User.findOne({ _id: id })
     if(!foundUser) {
@@ -42,16 +42,16 @@ const getUser = async (req: Request, res: Response) => {
 const updateUser = async (req: Request, res: Response) => {
     const id: string = req.params.user_id
     if(!Types.ObjectId.isValid(id)) {
-        return res.status(422).json({ message: 'ID не валиден' })
+        return res.status(400).json({ message: 'ID не валиден' })
     }
     const phone: string = req.body.phone
     const name: string   = req.body.name
     const user: UserInput | null = await User.findById(id)
     if(!user) {
-        return res.status(404).json({ message: `Пользователь с id = ${id} не найден.` })
+        return res.status(404).json({ message: `Пользователь с id = ${id} не найден` })
     }
     if (!phone && !name) {
-        return res.status(422).json({ message: 'Обязательно должно быть запонено хотябы одно поле для изменения' });
+        return res.status(400).json({ message: 'Обязательно должно быть заполнено хотябы одно поле для изменения' });
     }
     if(phone) {
         await User.findByIdAndUpdate( id , { phone })
@@ -66,7 +66,7 @@ const updateUser = async (req: Request, res: Response) => {
 const deleteUser = async (req: Request, res: Response) => {
     const id: string = req.params.user_id
     if(!Types.ObjectId.isValid(id)) {
-        return res.status(422).json({ message: 'ID не валиден' })
+        return res.status(400).json({ message: 'ID не валиден' })
     }
     const deletedUser: UserInput | null = await User.findByIdAndDelete(id)
     if(!deletedUser) {

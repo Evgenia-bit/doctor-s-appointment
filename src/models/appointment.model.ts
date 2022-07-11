@@ -1,11 +1,15 @@
-import mongoose, { Schema, Model, Document } from 'mongoose';
+import mongoose, { Schema, Model, Document } from 'mongoose'
+
+
 
 type AppointmentDocument = Document & {
+    _id?: string,
     user_id: string,
     doctor_id: string,
     slot: string
 }
 type AppointmentInput = {
+    _id?: AppointmentDocument['_id'],
     user_id: AppointmentDocument['user_id'],
     doctor_id: AppointmentDocument['doctor_id'],
     slot: AppointmentDocument['slot'],

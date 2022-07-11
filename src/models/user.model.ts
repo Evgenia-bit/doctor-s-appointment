@@ -1,10 +1,12 @@
 import mongoose, { Schema, Model, Document } from 'mongoose'
 
 type UserDocument = Document & {
+    _id?: string,
     phone: string,
     name: string
 }
 type UserInput = {
+    _id?: UserDocument['_id']
     phone: UserDocument['phone'],
     name: UserDocument['name'],
 }

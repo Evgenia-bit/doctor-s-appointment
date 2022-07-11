@@ -7,7 +7,7 @@ const createDoctor = async (req: Request, res: Response) => {
     const name: string = req.body.name
     const spec: string = req.body.spec
     if (!name || !spec || !slots) {
-        return res.status(422).json({ message: 'Поля name, spec и slots обязательны для заполнения' })
+        return res.status(400).json({ message: 'Поля name, spec и slots обязательны для заполнения' })
     }
     let invalidSlot: string | undefined = slots.find( slot => {
         if (slot.length !== 19 &&  isNaN(Date.parse(slot))) {
@@ -15,7 +15,7 @@ const createDoctor = async (req: Request, res: Response) => {
         }
     })
     if(invalidSlot) {
-        return res.status(422).json({ message: `Слот ${invalidSlot} введён в неверном формате. Все даты должны быть записаны в формате YYYY-MM-DDThh:mm:ss` })
+        return res.status(400).json({ message: `Слот ${invalidSlot} введён в неверном формате. Все даты должны быть записаны в формате YYYY-MM-DDThh:mm:ss` })
     }
     const doctorInput: DoctorInput = {
         name,
@@ -36,7 +36,7 @@ const getAllDoctors = async (req: Request, res: Response) => {
 const getDoctor = async (req: Request, res: Response) => {
     const id: string = req.params.doctor_id
     if(!Types.ObjectId.isValid(id)) {
-        return res.status(422).json({ message: 'ID не валиден' })
+        return res.status(400).json({ message: 'ID не валиден' })
     }
     const foundDoctor: DoctorInput | null = await Doctor.findById(id)
     if(!foundDoctor) {
@@ -49,17 +49,17 @@ const getDoctor = async (req: Request, res: Response) => {
 const updateDoctor = async (req: Request, res: Response) => {
     const id: string = req.params.doctor_id
     if(!Types.ObjectId.isValid(id)) {
-        return res.status(422).json({ message: 'ID не валиден' })
+        return res.status(400).json({ message: 'ID не валиден' })
     }
     const slots: string[] = req.body.slots
     const name: string = req.body.name
     const spec: string = req.body.spec
     const doctor: DoctorInput | null = await Doctor.findById(id)
     if(!doctor) {
-        return res.status(404).json({ message: `Доктор с ${id} не найден.` })
+        return res.status(404).json({ message: `Доктор с id = ${id} не найден` })
     }
     if (!name && !spec && !slots) {
-        return res.status(422).json({ message: 'Обязательно должно быть заполнено хотябы одно поле для изменения' })
+        return res.status(400).json({ message: 'Обязательно должно быть заполнено хотябы одно поле для изменения' })
     }
     if(name) {
         await Doctor.findByIdAndUpdate( id , { name })
@@ -74,7 +74,7 @@ const updateDoctor = async (req: Request, res: Response) => {
             }
         })
         if(invalidSlot) {
-            return res.status(422).json({ message: `Слот ${invalidSlot} введён в неверном формате. Все даты должны быть записаны в формате YYYY-MM-DDThh:mm:ss` })
+            return res.status(400).json({ message: `Слот ${invalidSlot} введён в неверном формате. Все даты должны быть записаны в формате YYYY-MM-DDThh:mm:ss` })
         }
         await Doctor.findByIdAndUpdate( id , { slots })
     }
@@ -84,7 +84,7 @@ const updateDoctor = async (req: Request, res: Response) => {
 const deleteDoctor= async (req: Request, res: Response) => {
     const id: string = req.params.doctor_id
     if(!Types.ObjectId.isValid(id)) {
-        return res.status(422).json({ message: 'ID не валиден' })
+        return res.status(400).json({ message: 'ID не валиден' })
     }
     const deletedDoctor: DoctorInput | null = await Doctor.findByIdAndDelete(id)
     if(deletedDoctor) {

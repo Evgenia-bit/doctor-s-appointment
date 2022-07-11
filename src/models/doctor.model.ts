@@ -1,15 +1,16 @@
 import mongoose, { Schema, Model, Document } from 'mongoose'
 
 type DoctorDocument = Document & {
+    _id?: string,
     name: string,
     spec: string,
     slots: string[]
 }
 type DoctorInput = {
+    _id?: DoctorDocument['_id']
     name: DoctorDocument['name'],
     spec: DoctorDocument['spec'],
     slots: DoctorDocument['slots'],
-
 }
 
 const doctorsSchema = new Schema(
