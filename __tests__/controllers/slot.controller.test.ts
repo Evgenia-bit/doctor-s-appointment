@@ -75,12 +75,7 @@ describe("Slot", () => {
                     .patch(`/api/slots/add/${doctorId}`)
                     .send({slot: newSlot})
                 expect(statusCode).toBe(200)
-                expect(body).toEqual({
-                    _id: doctorId,
-                    name: 'Ложкин П.В.',
-                    spec: 'Терапевт',
-                    slots: [slot, newSlot]
-                })
+                expect(body).toEqual({ message: 'Слот успешно добавлен' })
                 await Doctor.deleteMany({})
             })
         })
@@ -133,12 +128,7 @@ describe("Slot", () => {
                     .patch(`/api/slots/delete/${doctorId}`)
                     .send({slot})
                 expect(statusCode).toBe(200)
-                expect(body).toEqual({
-                    _id: doctorId,
-                    name: 'Ложкин П.В.',
-                    spec: 'Терапевт',
-                    slots: []
-                })
+                expect(body).toEqual({ message: 'Слот успешно удалён' })
                 await Doctor.deleteMany({})
             })
         })

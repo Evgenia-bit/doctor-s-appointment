@@ -38,7 +38,7 @@
               "application/json": {
                 "schema": {
                   "properties": {
-                    "foundUsers": {
+                    "allUsersFound": {
                       "type": "array",
                       "items": {
                         "$ref": "#/components/schemas/User"
@@ -88,7 +88,7 @@
               "application/json": {
                 "schema": {
                   "properties": {
-                    "foundUser": {
+                    "oneUserFound": {
                       "$ref": "#/components/schemas/User"
                     }
                   }
@@ -328,7 +328,7 @@
               "application/json": {
                 "schema": {
                   "properties": {
-                    "foundDoctors": {
+                    "allDoctorsFound": {
                       "type": "array",
                       "items": {
                         "$ref": "#/components/schemas/Doctor"
@@ -378,7 +378,7 @@
               "application/json": {
                 "schema": {
                   "properties": {
-                    "foundDoctor": {
+                    "oneDoctorFound": {
                       "$ref": "#/components/schemas/Doctor"
                     }
                   }
@@ -635,7 +635,7 @@
               "application/json": {
                 "schema": {
                   "properties": {
-                    "foundAppointments": {
+                    "allFoundAppointments": {
                       "type": "array",
                       "items": {
                         "$ref": "#/components/schemas/Appointment"
@@ -699,7 +699,7 @@
               "application/json": {
                 "schema": {
                   "properties": {
-                    "foundAppointment": {
+                    "oneAppointmentFound": {
                       "$ref": "#/components/schemas/Appointment"
                     }
                   }
@@ -982,7 +982,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Doctor"
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Слот успешно добавлен"
+                    }
+                  }
                 }
               }
             }
@@ -1066,7 +1071,12 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Doctor"
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Слот успешно удалён"
+                    }
+                  }
                 }
               }
             }
