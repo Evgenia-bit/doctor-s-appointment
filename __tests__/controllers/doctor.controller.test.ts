@@ -45,7 +45,7 @@ describe("Doctor", () => {
             })
             describe("given the doctor does exist", () => {
                 test("should return a 200 status and the found doctor", async () => {
-                    const doctor = await Doctor.create(doctorPayload)
+                    await Doctor.create(doctorPayload)
                     const {body, statusCode} = await supertest(app).get(`/api/doctors/get-one/${doctorId}`)
                     expect(statusCode).toBe(200)
                     expect(body.oneDoctorFound._id).toEqual(doctorId)
@@ -64,7 +64,7 @@ describe("Doctor", () => {
             })
             describe("given the doctors does exist", () => {
                 test("should return a 200 status and the found appointment", async () => {
-                    const doctors = await Doctor.create(doctorPayload)
+                    await Doctor.create(doctorPayload)
                     const {body, statusCode} = await supertest(app).get(`/api/doctors/get-all`)
                     expect(statusCode).toBe(200)
                     expect(body.allDoctorsFound[0]._id).toEqual(doctorId)
@@ -80,7 +80,7 @@ describe("Doctor", () => {
                     .post('/api/doctors/create/')
                     .send({})
                 expect(statusCode).toBe(400)
-                expect(body).toEqual({ message: 'Поля name, spec и slots обязательны для заполнения' })
+                expect(body).toEqual({ message: 'Поля обязательны для заполнения' })
             })
         })
         describe('given the slot was entered in the wrong format', ()=> {
@@ -93,7 +93,7 @@ describe("Doctor", () => {
                         slots: [invalidSlot]
                     })
                 expect(statusCode).toBe(400)
-                expect(body).toEqual({ message: `Слот ${invalidSlot} введён в неверном формате. Все даты должны быть записаны в формате YYYY-MM-DDThh:mm:ss`})
+                expect(body).toEqual({ message: `Слот введён в неверном формате. Все даты должны быть записаны в формате YYYY-MM-DDThh:mm:ss`})
             })
         })
         describe('given the everything is normal', ()=> {
@@ -131,25 +131,25 @@ describe("Doctor", () => {
             test("should return a 404 status and the message", async () => {
                 const {body, statusCode } = await supertest(app)
                     .patch(`/api/doctors/update/${doctorId}`)
-                    .send({})
+                    .send(doctorPayload)
                 expect(statusCode).toBe(404)
-                expect(body).toEqual( {message: `Доктор с id = ${doctorId} не найден` })
+                expect(body).toEqual( {message: `Доктор не найден` })
             })
         })
         describe('given the fields are not filled in', () => {
             test('should return a 400 status and the message', async () => {
-                const doctor =  await Doctor.create(doctorPayload)
+                await Doctor.create(doctorPayload)
                 const {body, statusCode } = await supertest(app)
                     .patch(`/api/doctors/update/${doctorId}`)
                     .send({})
                 expect(statusCode).toBe(400)
-                expect(body).toEqual({ message: 'Обязательно должно быть заполнено хотябы одно поле для изменения' })
+                expect(body).toEqual({ message: 'Поля обязательны для заполнения' })
                 await Doctor.deleteMany({})
             })
         })
         describe('given the slot was entered in the wrong format', ()=> {
             test('should return a 400 status and the message', async () => {
-                const doctor =  await Doctor.create(doctorPayload)
+                await Doctor.create(doctorPayload)
                 const {body, statusCode } = await supertest(app)
                     .patch(`/api/doctors/update/${doctorId}`)
                     .send({
@@ -158,24 +158,27 @@ describe("Doctor", () => {
                         slots: [invalidSlot]
                     })
                 expect(statusCode).toBe(400)
-                expect(body).toEqual({ message: `Слот ${invalidSlot} введён в неверном формате. Все даты должны быть записаны в формате YYYY-MM-DDThh:mm:ss`})
+                expect(body).toEqual({ message: `Слот введён в неверном формате. Все даты должны быть записаны в формате YYYY-MM-DDThh:mm:ss`})
                 await Doctor.deleteMany({})
             })
         })
         describe('given the everything is normal', ()=> {
             test('should return a 200 status and the updated doctor', async () => {
-                const doctor =  await Doctor.create(doctorPayload)
+                await Doctor.create(doctorPayload)
+                const newSlot = '2022:07:17T13:30:00'
                 const {body, statusCode } = await supertest(app)
                     .patch(`/api/doctors/update/${doctorId}`)
                     .send({
-                        spec: 'Старший терапевт'
+                        name: 'Ложкин П.В.',
+                        spec: 'Старший терапевт',
+                        slots: [slot, newSlot]
                     })
                 expect(statusCode).toBe(200)
                 expect(body).toEqual({
                     _id: doctorId,
                     name: 'Ложкин П.В.',
                     spec: 'Старший терапевт',
-                    slots: [slot]
+                    slots: [slot, newSlot]
                 })
                 await Doctor.deleteMany({})
             })
@@ -195,16 +198,16 @@ describe("Doctor", () => {
                 const {body, statusCode } = await supertest(app)
                     .delete(`/api/doctors/delete/${doctorId}`)
                 expect(statusCode).toBe(404)
-                expect(body).toEqual( {message: `Доктор с id = ${doctorId} не найден` })
+                expect(body).toEqual( {message: 'Доктор не найден' })
             })
         })
         describe('given the everything is normal', ()=> {
             test('should return a 200 status and message', async () => {
-                const doctor = await Doctor.create(doctorPayload)
+                await Doctor.create(doctorPayload)
                 const {body, statusCode } = await supertest(app)
                     .delete(`/api/doctors/delete/${doctorId}`)
                 expect(statusCode).toBe(200)
-                expect(body).toEqual( {message: `Доктор успешно удален` })
+                expect(body).toEqual( {message: 'Доктор успешно удален' })
                 await Doctor.deleteMany({})
             })
         })
