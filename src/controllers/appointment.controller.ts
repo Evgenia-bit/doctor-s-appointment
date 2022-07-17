@@ -2,7 +2,6 @@ import {Request, Response, NextFunction} from 'express'
 import {Appointment, AppointmentInput} from '../models/appointment.model'
 import {Doctor, DoctorInput} from '../models/doctor.model'
 import {User, UserInput} from '../models/user.model'
-import {Types} from "mongoose"
 // @ts-ignore
 import ApiError from "../error/ApiError"
 // @ts-ignore
