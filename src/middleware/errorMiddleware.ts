@@ -5,7 +5,7 @@ function errorMiddleware(err: any, req: Request, res: Response, next: NextFuncti
         if (err instanceof ApiError) {
             return res.status(err.code).json({message: err.message})
         }
-        return res.status(500).json({message: "Непредвиденная ошибка!"})
+        return res.status(500).json({message: `Непредвиденная ошибка! ${err.message}`})
     }
 
 module.exports = errorMiddleware
