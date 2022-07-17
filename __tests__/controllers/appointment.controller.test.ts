@@ -83,10 +83,10 @@ describe("Appointment", () => {
             })
             describe("given the appointments does exist", () => {
                 test("should return a 200 status and the found appointment", async () => {
-                    const appointments =  await Appointment.create(appointmentPayload)
+                    const appointment = await Appointment.create(appointmentPayload)
                     const { body, statusCode } = await supertest(app).get(`/api/appointments/get-all`)
                     expect(statusCode).toBe(200)
-                    expect(body.allFoundAppointments[0]._id).toEqual(appointments._id.toString())
+                    expect(body.allFoundAppointments[0]._id).toEqual(appointment._id.toString())
                     await Appointment.deleteMany({})
                 })
             })
@@ -95,9 +95,9 @@ describe("Appointment", () => {
     describe('create appointment route', () => {
         describe('given the slot is occupied', () => {
             test('should return a 409 status and the message', async () => {
-                const appointment = await Appointment.create(appointmentPayload)
-                const doctor = await Doctor.create(doctorPayload)
-                const user = await User.create(userPayload)
+                await Appointment.create(appointmentPayload)
+                await Doctor.create(doctorPayload)
+                await User.create(userPayload)
                 const {body, statusCode } = await supertest(app)
                     .post('/api/appointments/create/')
                     .send(appointmentPayload)
@@ -146,7 +146,7 @@ describe("Appointment", () => {
         })
         describe('given the doctor is not found', ()=> {
             test('should return a 404 status and the message', async () => {
-                const user = await User.create(userPayload)
+                await User.create(userPayload)
                 const {body, statusCode } = await supertest(app)
                     .post('/api/appointments/create/')
                     .send(appointmentPayload)
@@ -157,7 +157,7 @@ describe("Appointment", () => {
         })
         describe('given the user is not found', ()=> {
             test('should return a 404 status and the message', async () => {
-                const doctor = await Doctor.create(doctorPayload)
+                await Doctor.create(doctorPayload)
                 const {body, statusCode } = await supertest(app)
                     .post('/api/appointments/create/')
                     .send(appointmentPayload)
@@ -168,8 +168,8 @@ describe("Appointment", () => {
         })
         describe('given the slot is not found', ()=> {
             test('should return a 404 status and the message', async () => {
-                const user = await User.create(userPayload)
-                const doctor = await Doctor.create(doctorPayload)
+                await User.create(userPayload)
+                await Doctor.create(doctorPayload)
                 const {body, statusCode } = await supertest(app)
                     .post('/api/appointments/create/')
                     .send({
@@ -185,8 +185,8 @@ describe("Appointment", () => {
         })
         describe('given the everything is normal', ()=> {
             test('should return a 200 status and the creared appointment', async () => {
-                const user = await User.create(userPayload)
-                const doctor = await Doctor.create(doctorPayload)
+                await User.create(userPayload)
+                await Doctor.create(doctorPayload)
                 const {body, statusCode } = await supertest(app)
                     .post('/api/appointments/create/')
                     .send(appointmentPayload)
@@ -229,7 +229,7 @@ describe("Appointment", () => {
         })
         describe('given the fields are not filled in', () => {
             test('should return a 400 status and the message', async () => {
-                const appointment =  await Appointment.create(appointmentPayload)
+                await Appointment.create(appointmentPayload)
                 const {body, statusCode } = await supertest(app)
                     .patch(`/api/appointments/update/${appointmentId}`)
                     .send({})
@@ -240,8 +240,8 @@ describe("Appointment", () => {
         })
         describe('given the user is not found', ()=> {
             test('should return a 404 status and the message', async () => {
-                const appointment = await Appointment.create(appointmentPayload)
-                const doctor = await Doctor.create(doctorPayload)
+                await Appointment.create(appointmentPayload)
+                await Doctor.create(doctorPayload)
                 const {body, statusCode } = await supertest(app)
                     .patch(`/api/appointments/update/${appointmentId}`)
                     .send(appointmentPayload)
@@ -253,8 +253,8 @@ describe("Appointment", () => {
         })
         describe('given the doctor is not found', () => {
             test('should return a 404 status and the message', async () => {
-                const appointment = await Appointment.create(appointmentPayload)
-                const user = await User.create(userPayload)
+                await Appointment.create(appointmentPayload)
+                await User.create(userPayload)
                 const {body, statusCode } = await supertest(app)
                     .patch(`/api/appointments/update/${appointmentId}`)
                     .send(appointmentPayload)
@@ -266,9 +266,9 @@ describe("Appointment", () => {
         })
         describe('given the slot is not found', () => {
             test('should return a 404 status and the message', async () => {
-                const appointment = await Appointment.create(appointmentPayload)
-                const user = await User.create(userPayload)
-                const doctor = await Doctor.create(doctorPayload)
+                await Appointment.create(appointmentPayload)
+                await User.create(userPayload)
+                await Doctor.create(doctorPayload)
                 const {body, statusCode } = await supertest(app)
                     .patch(`/api/appointments/update/${appointmentId}`)
                     .send({
@@ -285,9 +285,9 @@ describe("Appointment", () => {
         })
         describe('given the slot is occupied', () => {
             test('should return a 409 status and the message', async () => {
-                const appointment = await Appointment.create(appointmentPayload)
-                const doctor = await Doctor.create(doctorPayload)
-                const user = await User.create(userPayload)
+                await Appointment.create(appointmentPayload)
+                await Doctor.create(doctorPayload)
+                await User.create(userPayload)
                 const {body, statusCode } = await supertest(app)
                     .patch(`/api/appointments/update/${appointmentId}`)
                     .send(appointmentPayload)
