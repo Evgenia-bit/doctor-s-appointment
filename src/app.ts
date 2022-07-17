@@ -7,6 +7,10 @@ import { slotRoute } from './routes/slot.route'
 import cors from 'cors'
 import swaggerUi from 'swagger-ui-express'
 import * as swaggerDocument from '../src/swagger/openapi.json'
+// @ts-ignore
+import errorMiddleware from './middleware/errorMiddleware'
+// @ts-ignore
+import ApiError from "./error/ApiError"
 
 const app: Express = express()
 
@@ -20,6 +24,8 @@ app.use('/api/appointments', appointmentRoute())
 app.use('/api/slots', slotRoute())
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+
+app.use(errorMiddleware)
 
 app.use((req: Request, res: Response)=> {
     res.status(404)
