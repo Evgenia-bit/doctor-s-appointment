@@ -114,7 +114,7 @@ describe("Appointment", () => {
                     .post('/api/appointments/create/')
                     .send({})
                 expect(statusCode).toBe(400)
-                expect(body).toEqual({ message: 'Поля user_id, doctor_id и slot обязательны для заполнения' })
+                expect(body).toEqual({ message: 'Поля обязательны для заполнения' })
             })
         })
         describe('given the user_id is not valid', ()=> {
@@ -128,7 +128,7 @@ describe("Appointment", () => {
                         slot: slot
                     })
                 expect(statusCode).toBe(400)
-                expect(body).toEqual({ message: 'user_id не валиден' })
+                expect(body).toEqual({ message: 'ID не валиден' })
             })
         })
         describe('given the doctor_id is not valid', ()=> {
@@ -141,7 +141,7 @@ describe("Appointment", () => {
                         slot: slot
                     })
                 expect(statusCode).toBe(400)
-                expect(body).toEqual({ message: 'doctor_id не валиден' })
+                expect(body).toEqual({ message: 'ID не валиден' })
             })
         })
         describe('given the doctor is not found', ()=> {
@@ -151,7 +151,7 @@ describe("Appointment", () => {
                     .post('/api/appointments/create/')
                     .send(appointmentPayload)
                 expect(statusCode).toBe(404)
-                expect(body).toEqual({ message: `Доктор с id = ${doctorId} не найден`})
+                expect(body).toEqual({ message: `Доктор не найден`})
                 await User.deleteMany({})
             })
         })
@@ -162,7 +162,7 @@ describe("Appointment", () => {
                     .post('/api/appointments/create/')
                     .send(appointmentPayload)
                 expect(statusCode).toBe(404)
-                expect(body).toEqual({ message: `Пользователь с id = ${userId} не найден`})
+                expect(body).toEqual({ message: `Пользователь не найден`})
                 await Doctor.deleteMany({})
             })
         })
@@ -222,9 +222,9 @@ describe("Appointment", () => {
             test("should return a 404 status and the message", async () => {
                 const {body, statusCode } = await supertest(app)
                     .patch(`/api/appointments/update/${appointmentId}`)
-                    .send({})
+                    .send(appointmentPayload)
                 expect(statusCode).toBe(404)
-                expect(body).toEqual( {message: `Запись с id = ${appointmentId} не найдена` })
+                expect(body).toEqual( {message: `Запись не найдена` })
             })
         })
         describe('given the fields are not filled in', () => {
@@ -234,7 +234,7 @@ describe("Appointment", () => {
                     .patch(`/api/appointments/update/${appointmentId}`)
                     .send({})
                 expect(statusCode).toBe(400)
-                expect(body).toEqual({ message: 'Обязательно должно быть заполнено хотябы одно поле для изменения' })
+                expect(body).toEqual({ message: 'Поля обязательны для заполнения' })
                 await Appointment.deleteMany({})
             })
         })
@@ -246,7 +246,7 @@ describe("Appointment", () => {
                     .patch(`/api/appointments/update/${appointmentId}`)
                     .send(appointmentPayload)
                 expect(statusCode).toBe(404)
-                expect(body).toEqual({ message: `Пользователь с id = ${userId} не найден`})
+                expect(body).toEqual({ message: `Пользователь не найден`})
                 await Appointment.deleteMany({})
                 await Doctor.deleteMany({})
             })
@@ -259,7 +259,7 @@ describe("Appointment", () => {
                     .patch(`/api/appointments/update/${appointmentId}`)
                     .send(appointmentPayload)
                 expect(statusCode).toBe(404)
-                expect(body).toEqual({ message: `Доктор с id = ${doctorId} не найден`})
+                expect(body).toEqual({ message: `Доктор не найден`})
                 await Appointment.deleteMany({})
                 await User.deleteMany({})
             })
@@ -277,7 +277,7 @@ describe("Appointment", () => {
                         slot: fakeSlot
                     })
                 expect(statusCode).toBe(404)
-                expect(body).toEqual({ message: `Слот ${fakeSlot} не существует`})
+                expect(body).toEqual({ message: 'Данного слота не существует'})
                 await Appointment.deleteMany({})
                 await User.deleteMany({})
                 await Doctor.deleteMany({})
@@ -292,7 +292,7 @@ describe("Appointment", () => {
                     .patch(`/api/appointments/update/${appointmentId}`)
                     .send(appointmentPayload)
                 expect(statusCode).toBe(409)
-                expect(body).toEqual({ message: `Слот ${slot} уже занят` })
+                expect(body).toEqual({ message: 'Данный слот уже занят' })
                 await Appointment.deleteMany({})
                 await Doctor.deleteMany({})
                 await User.deleteMany({})
@@ -300,10 +300,10 @@ describe("Appointment", () => {
         })
         describe('given the everything is normal', ()=> {
             test('should return a 200 status and the updated appointment', async () => {
-                const appointment = await Appointment.create(appointmentPayload)
-                const user = await User.create(userPayload)
+                await Appointment.create(appointmentPayload)
+                await User.create(userPayload)
                 const newSlot: string = '2022:07:11T11:30:00'
-                const doctor = await Doctor.create({
+                await Doctor.create({
                     _id: doctorId,
                     name: 'Ложкин П.В.',
                     spec: 'Терапевт',
@@ -312,6 +312,8 @@ describe("Appointment", () => {
                 const {body, statusCode } = await supertest(app)
                     .patch(`/api/appointments/update/${appointmentId}`)
                     .send({
+                        user_id: userId,
+                        doctor_id: doctorId,
                         slot: newSlot
                     })
                 expect(statusCode).toBe(200)
@@ -341,7 +343,7 @@ describe("Appointment", () => {
                 const {body, statusCode } = await supertest(app)
                     .delete(`/api/appointments/delete/${appointmentId}`)
                 expect(statusCode).toBe(404)
-                expect(body).toEqual( {message: `Запись с id = ${appointmentId} не найдена` })
+                expect(body).toEqual( {message: `Запись не найдена` })
             })
         })
         describe('given the everything is normal', ()=> {

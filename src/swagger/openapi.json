@@ -172,7 +172,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Поля phone и name обязательны для заполнения"
+                      "example": "Поля обязательны для заполнения"
                     }
                   }
                 }
@@ -469,7 +469,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Поля name, spec и slots обязательны для заполнения"
+                      "example": "Поля обязательны для заполнения"
                     }
                   }
                 }
@@ -554,7 +554,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Доктор с id = 62bbe1daecf29bd9e1d54dcb не найден"
+                      "example": "Доктор не найден"
                     }
                   }
                 }
@@ -615,7 +615,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Доктор с id = 62bbe1daecf29bd9e1d54dcb не найден"
+                      "example": "Доктор не найден"
                     }
                   }
                 }
@@ -771,7 +771,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Поля user_id, doctor_id и slot обязательны для заполнения"
+                      "example": "Поля обязательны для заполнения"
                     }
                   }
                 }
@@ -863,7 +863,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Запись с id = 62bbe31a99115a593145d4aa не найдена"
+                      "example": "Запись не найдена"
                     }
                   }
                 }
@@ -924,7 +924,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Запись с id = 62bbe31a99115a593145d4aa не найденв"
+                      "example": "Запись не найденв"
                     }
                   }
                 }
@@ -1013,7 +1013,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Доктор с id = 62bbe1daecf29bd9e1d54dcb не найден"
+                      "example": "Доктор не найден"
                     }
                   }
                 }
@@ -1102,7 +1102,7 @@
                   "properties": {
                     "message": {
                       "type": "string",
-                      "example": "Доктор с id = 62bbe1daecf29bd9e1d54dcb не найден"
+                      "example": "Доктор не найден"
                     }
                   }
                 }
