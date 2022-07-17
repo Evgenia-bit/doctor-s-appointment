@@ -19,6 +19,16 @@ class СheckData {
             throw new ApiError( 'Данного слота не существует', 404)
         }
     }
+    static slotIsNotExisting (doctor: DoctorInput, slot: string) {
+        if (doctor.slots.includes(slot)) {
+            throw new ApiError( 'Данный слот уже существует', 409)
+        }
+    }
+    static slotIsValid (slot: string) {
+        if (slot.length !== 19 &&  isNaN(Date.parse(slot))) {
+            throw new ApiError( 'Слот введён в неверном формате. Все даты должны быть записаны в формате YYYY-MM-DDThh:mm:ss', 400)
+        }
+    }
     static async slotIsNotOccupied (slot: string) {
         const appointmentForThisSlot: AppointmentInput | null = await Appointment.findOne({slot})
         if (appointmentForThisSlot) {
