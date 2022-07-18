@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express'
-import { Types } from "mongoose"
 import { User, UserInput } from '../models/user.model'
 // @ts-ignore
 import ApiError from "../error/ApiError"
@@ -10,8 +9,8 @@ import CheckData from "../utils/сheckData"
 const createUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         CheckData.bodyIsExisting(req.body)
-        const phone: string = req.body.phone
-        const name: string   = req.body.name
+        const { phone, name } = req.body
+
         const userInput: UserInput = {
             phone,
             name,
@@ -27,9 +26,10 @@ const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
         const allUsersFound: UserInput[] = await User.find()
         if(allUsersFound.length === 0) {
             throw new ApiError( 'Пользователи не найдены', 404)
-        } else {
-            return res.json({ allUsersFound })
         }
+
+        return res.json({ allUsersFound })
+
     } catch (e) {
         next(e)
     }
@@ -39,12 +39,13 @@ const getUser = async (req: Request, res: Response,  next: NextFunction) => {
     try {
         const userId: string = req.params.user_id
         CheckData.idIsValid(userId)
+
         const oneUserFound: UserInput | null = await User.findOne({ _id: userId })
         if(!oneUserFound) {
             throw new ApiError( 'Пользователь не найден', 404)
-        } else {
-            return res.json({ oneUserFound })
         }
+
+        return res.json({ oneUserFound })
     } catch (e) {
         next(e)
     }
@@ -54,13 +55,15 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userId: string = req.params.user_id
         CheckData.idIsValid(userId)
+
         CheckData.bodyIsExisting(req.body)
-        const phone: string = req.body.phone
-        const name: string   = req.body.name
+        const { phone, name } = req.body
+
         const user: UserInput | null = await User.findById(userId)
         if(!user) {
             throw new ApiError( 'Пользователь не найден', 404)
         }
+
         const updatedUser: UserInput | null = await User.findByIdAndUpdate(userId, {name, phone}, {new: true})
         return res.json(updatedUser)
     } catch (e) {
@@ -72,12 +75,13 @@ const deleteUser = async (req: Request, res: Response,  next: NextFunction) => {
     try {
         const userId: string = req.params.user_id
         CheckData.idIsValid(userId)
+
         const deletedUser: UserInput | null = await User.findByIdAndDelete(userId)
         if(!deletedUser) {
             throw new ApiError( 'Пользователь не найден', 404)
-        } else {
-            return res.json({ message: 'Пользователь успешно удален' })
         }
+
+        return res.json({ message: 'Пользователь успешно удален' })
     } catch (e) {
         next(e)
     }

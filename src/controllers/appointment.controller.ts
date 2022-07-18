@@ -10,9 +10,8 @@ import CheckData from "../utils/сheckData"
 const createAppointment = async (req: Request, res: Response, next: NextFunction) => {
     try {
         CheckData.bodyIsExisting(req.body)
-        const user_id: string = req.body.user_id
-        const doctor_id: string = req.body.doctor_id
-        const slot: string = req.body.slot
+        const { user_id, doctor_id, slot } = req.body
+
         CheckData.idIsValid(user_id)
         CheckData.idIsValid(doctor_id)
 
@@ -46,9 +45,9 @@ const getAllAppointments = async (req: Request, res: Response, next: NextFunctio
         const allFoundAppointments: AppointmentInput[] = await Appointment.find()
         if (allFoundAppointments.length === 0) {
             throw new ApiError( 'Записи не найдены', 404)
-        } else {
-            return res.json({allFoundAppointments})
         }
+
+        return res.json({allFoundAppointments})
     } catch (e) {
         next(e)
     }
@@ -63,6 +62,7 @@ const getAppointment = async (req: Request, res: Response, next: NextFunction) =
         if (!oneAppointmentFound) {
             throw new ApiError( 'Запись не найдена', 404)
         }
+
         return res.json({oneAppointmentFound})
     } catch (e) {
         next(e)
@@ -73,10 +73,10 @@ const updateAppointment = async (req: Request, res: Response, next: NextFunction
     try {
         const appointmentId = req.params.appointment_id
         CheckData.idIsValid(appointmentId)
+
         CheckData.bodyIsExisting(req.body)
-        const user_id: string = req.body.user_id
-        const doctor_id: string = req.body.doctor_id
-        const slot: string = req.body.slot
+        const { user_id, doctor_id, slot } = req.body
+
         const appointment: AppointmentInput | null = await Appointment.findById(appointmentId)
         if (!appointment) {
             throw new ApiError( 'Запись не найдена', 404)
@@ -91,8 +91,10 @@ const updateAppointment = async (req: Request, res: Response, next: NextFunction
         if (!doctor) {
             throw new ApiError( 'Доктор не найден', 404)
         }
+
         CheckData.slotIsExisting(doctor, slot)
         await CheckData.slotIsNotOccupied(slot)
+
         const updatedAppointment: AppointmentInput | null = await Appointment.findByIdAndUpdate(appointmentId,  {user_id, doctor_id, slot}, {new: true})
         return res.json(updatedAppointment)
     } catch (e) {
@@ -103,15 +105,16 @@ const deleteAppointment = async (req: Request, res: Response, next: NextFunction
     try {
         const appointmentId: string = req.params.appointment_id
         CheckData.idIsValid(appointmentId)
+
         const deletedAppointment: AppointmentInput | null = await Appointment.findByIdAndDelete(appointmentId)
         if (!deletedAppointment) {
             throw new ApiError( 'Запись не найдена', 404)
-        } else {
-            return res.json({message: 'Запись успешно удалена'})
         }
+
+        return res.json({message: 'Запись успешно удалена'})
     } catch (e) {
         next(e)
     }
 }
 
-export {createAppointment, getAllAppointments, getAppointment, updateAppointment, deleteAppointment}
+export { createAppointment, getAllAppointments, getAppointment, updateAppointment, deleteAppointment }

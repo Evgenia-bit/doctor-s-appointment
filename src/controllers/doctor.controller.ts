@@ -1,6 +1,5 @@
 import {NextFunction, Request, Response} from 'express'
 import { Doctor, DoctorInput } from '../models/doctor.model'
-import {Types} from "mongoose"
 // @ts-ignore
 import ApiError from "../error/ApiError"
 // @ts-ignore
@@ -11,8 +10,7 @@ const createDoctor = async (req: Request, res: Response, next: NextFunction) => 
     try {
         CheckData.bodyIsExisting(req.body)
         const slots: string[] = req.body.slots
-        const name: string = req.body.name
-        const spec: string = req.body.spec
+        const { name, spec } = req.body
 
         slots.forEach(slot => {
             CheckData.slotIsValid(slot)
@@ -23,7 +21,6 @@ const createDoctor = async (req: Request, res: Response, next: NextFunction) => 
             spec,
             slots
         }
-
         const createdDoctor: DoctorInput = await Doctor.create(doctorInput)
         return res.json({ createdDoctor })
     } catch (e) {
@@ -35,9 +32,9 @@ const getAllDoctors = async (req: Request, res: Response, next: NextFunction) =>
         const allDoctorsFound: DoctorInput[] = await Doctor.find()
         if(allDoctorsFound.length === 0) {
             throw new ApiError( "Доктора не найдены", 404)
-        } else {
-            return res.json({ allDoctorsFound })
         }
+
+        return res.json({ allDoctorsFound })
     } catch (e) {
         next(e)
     }
@@ -46,12 +43,13 @@ const getDoctor = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const doctorId: string = req.params.doctor_id
         CheckData.idIsValid(doctorId)
+
         const oneDoctorFound: DoctorInput | null = await Doctor.findById(doctorId)
         if(!oneDoctorFound) {
             throw new ApiError( "Доктор не найден", 404)
-        } else {
-            return res.json({ oneDoctorFound })
         }
+
+        return res.json({ oneDoctorFound })
     } catch (e) {
         next(e)
     }
@@ -60,17 +58,20 @@ const updateDoctor = async (req: Request, res: Response, next: NextFunction) => 
     try {
         const doctorId: string = req.params.doctor_id
         CheckData.idIsValid(doctorId)
+
         CheckData.bodyIsExisting(req.body)
         const slots: string[] = req.body.slots
-        const name: string = req.body.name
-        const spec: string = req.body.spec
+        const { name, spec } = req.body
+
         const doctor: DoctorInput | null = await Doctor.findById(doctorId)
         if(!doctor) {
             throw new ApiError( "Доктор не найден", 404)
         }
+
         slots.forEach(slot => {
             CheckData.slotIsValid(slot)
         })
+
         const updatedDoctor: DoctorInput | null = await Doctor.findByIdAndUpdate(doctorId, {name, spec, slots}, {new: true})
         return res.json(updatedDoctor)
     } catch (e) {
@@ -81,12 +82,13 @@ const deleteDoctor = async (req: Request, res: Response, next: NextFunction) => 
     try {
         const doctorId: string = req.params.doctor_id
         CheckData.idIsValid(doctorId)
+
         const deletedDoctor: DoctorInput | null = await Doctor.findByIdAndDelete(doctorId)
         if(!deletedDoctor) {
             throw new ApiError( "Доктор не найден", 404)
-        } else {
-            return res.json({ message: 'Доктор успешно удален' })
         }
+
+        return res.json({ message: 'Доктор успешно удален' })
     } catch (e) {
         next(e)
     }
