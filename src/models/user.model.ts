@@ -11,7 +11,6 @@ type UserInput = {
     name: UserDocument['name'],
 }
 
-
 const usersSchema = new Schema(
     {
         phone: {

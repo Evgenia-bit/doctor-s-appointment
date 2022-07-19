@@ -1,8 +1,10 @@
-import app from  '../../src/app'
 import supertest  from 'supertest'
 import mongoose from 'mongoose'
 import { MongoMemoryServer } from 'mongodb-memory-server'
-import {UserInput, User} from '../../src/models/user.model'
+
+import app from  '../../src/app'
+
+import { UserInput, User } from '../../src/models/user.model'
 
 const userId: string = new mongoose.Types.ObjectId().toString()
 const invalidId: string = '62c7d1687a90700209'

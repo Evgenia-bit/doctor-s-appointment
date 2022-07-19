@@ -1,7 +1,5 @@
 import mongoose, { Schema, Model, Document } from 'mongoose'
 
-
-
 type AppointmentDocument = Document & {
     _id?: string,
     user_id: string,
@@ -14,7 +12,6 @@ type AppointmentInput = {
     doctor_id: AppointmentDocument['doctor_id'],
     slot: AppointmentDocument['slot'],
 }
-
 
 const appointmentsSchema = new Schema(
     {

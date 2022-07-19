@@ -1,7 +1,9 @@
-import app from  '../../src/app'
 import supertest  from 'supertest'
 import mongoose from 'mongoose'
 import { MongoMemoryServer } from 'mongodb-memory-server'
+
+import app from  '../../src/app'
+
 import {AppointmentInput, Appointment} from '../../src/models/appointment.model'
 import {DoctorInput, Doctor} from '../../src/models/doctor.model'
 import {UserInput, User} from '../../src/models/user.model'

@@ -1,7 +1,9 @@
-import app from  '../../src/app'
 import supertest  from 'supertest'
 import mongoose from 'mongoose'
 import { MongoMemoryServer } from 'mongodb-memory-server'
+
+import app from  '../../src/app'
+
 import {DoctorInput, Doctor} from '../../src/models/doctor.model'
 
 const doctorId: string = new mongoose.Types.ObjectId().toString()
