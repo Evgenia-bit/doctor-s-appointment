@@ -8,13 +8,12 @@ import {AppointmentInput, Appointment} from '../../src/models/appointment.model'
 import {DoctorInput, Doctor} from '../../src/models/doctor.model'
 import {UserInput, User} from '../../src/models/user.model'
 
-
 const appointmentId: string = new mongoose.Types.ObjectId().toString()
 const userId: string = new mongoose.Types.ObjectId().toString()
 const doctorId: string = new mongoose.Types.ObjectId().toString()
-const slot: string = '2022:06:29T08:30:00'
+const slot: string = '2022-06-29T08:30:00'
 const invalidId: string = '62c7d1687a90700209'
-const fakeSlot: string = '2020:06:29T08:30:00'
+const fakeSlot: string = '2020-06-29T08:30:00'
 
 
 const appointmentPayload: AppointmentInput = {

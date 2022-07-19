@@ -7,10 +7,10 @@ import app from  '../../src/app'
 import {DoctorInput, Doctor} from '../../src/models/doctor.model'
 
 const doctorId: string = new mongoose.Types.ObjectId().toString()
-const slot: string = '2022:06:29T08:30:00'
+const slot: string = '2022-06-29T08:30:00'
 const invalidId: string = '62c7d1687a90700209'
-const invalidSlot: string = '2022:06:29_08:30'
-const newSlot: string = '2022:07:11T11:30:00'
+Date format changedconst invalidSlot: string = '2022-06-29_08:30'
+const newSlot: string = '2022-07-11T11:30:00'
 
 const doctorPayload: DoctorInput = {
     _id: doctorId,
