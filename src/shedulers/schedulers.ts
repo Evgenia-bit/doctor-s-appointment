@@ -37,8 +37,6 @@ class Notification {
     sendMessage(message: string): void {
         fs.appendFile('notices.log', message, function (err: any) {
             if (err) throw err
-            const fileContent = fs.readFileSync("notices.log", "utf8")
-            console.log('Saved!', fileContent)
         })
     }
 }
