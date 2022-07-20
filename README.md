@@ -12,6 +12,7 @@ docker-compose up
 ### Обычный запуск: 
 
 ```
+npm install
 npm run build
 npm run prefill 
 npm run start
