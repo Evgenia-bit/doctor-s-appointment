@@ -1,7 +1,7 @@
 {
   "name": "doctor_appointment",
   "version": "1.0.0",
-  "description": "",
+  "description": "Service for making an appointment with a doctor",
   "main": "src/index.ts",
   "scripts": {
     "build": "tsc",
@@ -11,7 +11,7 @@
     "dev": "nodemon dist/src/server.js",
     "test": "jest --forceExit --detectOpenHandles"
   },
-  "author": "",
+  "author": "Evgenia Mochalina",
   "license": "ISC",
   "dependencies": {
     "@types/cors": "^2.8.12",
