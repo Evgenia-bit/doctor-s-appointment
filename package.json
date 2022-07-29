@@ -1,7 +1,7 @@
 {
   "name": "doctor_appointment",
   "version": "1.0.0",
-  "description": "",
+  "description": "Service for making an appointment with a doctor",
   "main": "src/index.ts",
   "scripts": {
     "build": "tsc",
@@ -11,10 +11,9 @@
     "dev": "nodemon dist/src/server.js",
     "test": "jest --forceExit --detectOpenHandles"
   },
-  "author": "",
+  "author": "Evgenia Mochalina",
   "license": "ISC",
   "dependencies": {
-    "@types/cors": "^2.8.12",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
@@ -30,6 +29,7 @@
     "@types/node": "^18.0.0",
     "@types/supertest": "^2.0.12",
     "@types/swagger-ui-express": "^4.1.3",
+    "@types/cors": "^2.8.12",
     "jest": "^28.1.2",
     "mongodb-memory-server": "^8.7.2",
     "nodemon": "^2.0.16",

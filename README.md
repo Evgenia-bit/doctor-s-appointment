@@ -12,11 +12,12 @@ docker-compose up
 ### Обычный запуск: 
 
 ```
+npm install
 npm run build
 npm run prefill 
 npm run start
 ```
-Swagger-документация доступна по адрессу http://<host>:<port>/api-docs/
+Swagger-документация доступна по адрессу `http://<host>:<port>/api-docs/`
 
 
 ## Технологии
