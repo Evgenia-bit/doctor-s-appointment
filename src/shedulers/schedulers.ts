@@ -34,7 +34,7 @@ class Notification {
         }
     }
 
-    sendMessage(message: string): void {
+    sendMessage(message: string) {
         fs.appendFile('notices.log', message, function (err: any) {
             if (err) throw err
         })
@@ -42,33 +42,33 @@ class Notification {
 }
 
 class TwentyFourHoursNotification extends Notification {
-    async generateMessage(): Promise<string> {
+    async generateMessage() {
         const { userName, doctorSpec, slot } = await this.getDataForGenerateMessage()
-        return `${this.dateNow.toLocaleString()} | Привет, ${userName}! Напоминаем что вы записаны к ${doctorSpec}у завтра в ${slot.toLocaleString()}!`
+        return `${this.dateNow.toLocaleString()} | Привет, ${userName}! Напоминаем что вы записаны к ${doctorSpec}у завтра в ${slot.toLocaleString()}!\n`
     }
 }
 
 class TwoHoursNotification extends Notification {
-    async generateMessage(): Promise<string> {
+    async generateMessage() {
         const { userName, doctorSpec, slot } = await this.getDataForGenerateMessage()
-        return  `${this.dateNow.toLocaleString()} | Привет, ${userName}! Вам через 2 часа к ${doctorSpec}у в ${slot.toLocaleString()}!`
+        return  `${this.dateNow.toLocaleString()} | Привет, ${userName}! Вам через 2 часа к ${doctorSpec}у в ${slot.toLocaleString()}!\n`
     }
 }
 
-async function createNotification(notification: TwoHoursNotification | TwentyFourHoursNotification): Promise<void> {
+async function createNotification(notification: TwoHoursNotification | TwentyFourHoursNotification) {
     const message = await notification.generateMessage()
     notification.sendMessage(message)
 }
 
-function getHoursBeforeAppointment(slot: Date, dateNow: Date): string {
+function getHoursBeforeAppointment(slot: Date, dateNow: Date) {
     return ((slot.getTime() - dateNow.getTime()) / (1000 * 60 * 60)).toFixed(2)
 }
 
-function isTwentyFourHoursLeft(hours: string): boolean {
+function isTwentyFourHoursLeft(hours: string) {
     return hours === '24.00'
 }
 
-function isTwoHoursLeft(hours: string): boolean  {
+function isTwoHoursLeft(hours: string) {
     return hours === '2.00'
 }
 

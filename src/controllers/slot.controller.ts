@@ -21,8 +21,8 @@ async function checkDataForSlotUpdates  (doctorId: string, slot: string): Promis
 
 const addSlot = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const doctorId: string = req.params.doctor_id
-        const slot: string = req.body.slot
+        const doctorId = req.params.doctor_id
+        const slot = req.body.slot
 
         const doctor = await checkDataForSlotUpdates(doctorId, slot)
 
@@ -37,8 +37,8 @@ const addSlot = async (req: Request, res: Response, next: NextFunction) => {
 
 const deleteSlot = async (req: Request, res: Response,  next: NextFunction) => {
     try {
-        const doctorId: string = req.params.doctor_id
-        const slot: string = req.body.slot
+        const doctorId = req.params.doctor_id
+        const slot = req.body.slot
 
         const doctor = await checkDataForSlotUpdates(doctorId, slot)
 

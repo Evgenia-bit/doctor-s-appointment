@@ -103,7 +103,7 @@ const updateAppointment = async (req: Request, res: Response, next: NextFunction
 }
 const deleteAppointment = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const appointmentId: string = req.params.appointment_id
+        const appointmentId = req.params.appointment_id
         CheckData.idIsValid(appointmentId)
 
         const deletedAppointment: AppointmentInput | null = await Appointment.findByIdAndDelete(appointmentId)

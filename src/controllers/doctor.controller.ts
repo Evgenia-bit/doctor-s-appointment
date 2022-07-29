@@ -41,7 +41,7 @@ const getAllDoctors = async (req: Request, res: Response, next: NextFunction) =>
 }
 const getDoctor = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const doctorId: string = req.params.doctor_id
+        const doctorId = req.params.doctor_id
         CheckData.idIsValid(doctorId)
 
         const oneDoctorFound: DoctorInput | null = await Doctor.findById(doctorId)
@@ -56,7 +56,7 @@ const getDoctor = async (req: Request, res: Response, next: NextFunction) => {
 }
 const updateDoctor = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const doctorId: string = req.params.doctor_id
+        const doctorId = req.params.doctor_id
         CheckData.idIsValid(doctorId)
 
         CheckData.bodyIsExisting(req.body)
@@ -80,7 +80,7 @@ const updateDoctor = async (req: Request, res: Response, next: NextFunction) => 
 }
 const deleteDoctor = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const doctorId: string = req.params.doctor_id
+        const doctorId = req.params.doctor_id
         CheckData.idIsValid(doctorId)
 
         const deletedDoctor: DoctorInput | null = await Doctor.findByIdAndDelete(doctorId)

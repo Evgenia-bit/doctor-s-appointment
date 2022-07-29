@@ -37,7 +37,7 @@ const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
 
 const getUser = async (req: Request, res: Response,  next: NextFunction) => {
     try {
-        const userId: string = req.params.user_id
+        const userId = req.params.user_id
         CheckData.idIsValid(userId)
 
         const oneUserFound: UserInput | null = await User.findOne({ _id: userId })
@@ -53,7 +53,7 @@ const getUser = async (req: Request, res: Response,  next: NextFunction) => {
 
 const updateUser = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const userId: string = req.params.user_id
+        const userId= req.params.user_id
         CheckData.idIsValid(userId)
 
         CheckData.bodyIsExisting(req.body)
@@ -73,7 +73,7 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
 
 const deleteUser = async (req: Request, res: Response,  next: NextFunction) => {
     try {
-        const userId: string = req.params.user_id
+        const userId = req.params.user_id
         CheckData.idIsValid(userId)
 
         const deletedUser: UserInput | null = await User.findByIdAndDelete(userId)
